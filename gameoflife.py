@@ -189,14 +189,14 @@ class GameOfLife(object):
         # Anpassen der Größe des Grids
         old = self.grid
         self.grid = [[0 for y in range(height)] for x in range(width)]
-        for x in range(min(width, len(old[0]))):
-            for y in range(min(height, len(old))):
+        for x in range(min(width, len(old))):
+            for y in range(min(height, len(old[0]))):
                 self.grid[x][y] = old[x][y]
         # Anpassen der Größe des initialen Grids
         old = self.init_grid
         self.init_grid = [[0 for y in range(height)] for x in range(width)]
-        for x in range(min(width, len(old[0]))):
-            for y in range(min(height, len(old))):
+        for x in range(min(width, len(old))):
+            for y in range(min(height, len(old[0]))):
                 self.init_grid[x][y] = old[x][y]
 
     def handleSetup(self, event = None):
