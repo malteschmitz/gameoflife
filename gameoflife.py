@@ -244,38 +244,50 @@ class GameOfLife(object):
 
         # Einlesen der Daten
         file = askopenfile(title = "Öffnen...",
-            defaultextension = ".txt",
-            filetypes = [("Textdateien (*.txt)", "*.txt")])
+            defaultextension = ".cells",
+            filetypes = [("Plaintext-Dateien (*.cells)", "*.cells")])
         f = open(file.name, "r")
-        data = list(map(lambda line: list(line.strip()), f.read().strip().split("\n")))
+        content = f.read()
         f.close()
-
+        # Datei in ihre Zeilen zerlegen
+        lines = content.strip().split("\n")
+        # Whitespace-Zeichen entfernen
+        lines = list(map(lambda line: list(line.strip()), lines))
+        # Alle Kommentar-Zeilen entfernen, die mit ! beginnen
+        data = list(filter(lambda line: line[0] != "!" if len(line) > 0 else True, lines))
+        
         # Aktualisieren von Breite und Höhe
-        height = len(data)
-        width = len(data[0])
+        # (Es werden zwei Zellen Rand auf allen Seiten hinzugefügt)
+        height = len(data) + 4
+        width = max(list(map(lambda line: len(line), data))) + 4
         self.draw_grid()
 
         # eingelesene Daten übernehmen
         self.grid = [[0 for y in range(height)] for x in range(width)]
         self.init_grid = [[0 for y in range(height)] for x in range(width)]
-        for y in range(height):
+        for y in range(len(data)):
             for x in range(len(data[y])):
-                if data[y][x] == '1':
-                    self.init_grid[x][y] = 1
+                if data[y][x] != '.':
+                    self.init_grid[x+2][y+2] = 1
         self.handleReset()
 
     def handleSave(self, event = None):
+        # Dateiname erfragen
         filename = asksaveasfilename(title = "Speichern unter...",
-            defaultextension = ".txt",
-            filetypes = [("Textdateien (*.txt)", "*.txt")])
-        f = open(filename, "w")
+            defaultextension = ".cells",
+            filetypes = [("Plaintext-Dateien (*.cells)", "*.cells")])
+        # Dateiformat erzeugen
         def convert(cell):
             if cell == 1:
-                return "1"
+                return "O"
             else:
                 return "."
-        f.write("\n".join(map(lambda line: "".join(map(convert, line)), self.grid)))
+        content = "\n".join(map(lambda line: "".join(map(convert, line)), self.grid))
+        # Datei schreiben
+        f = open(filename, "w")
+        f.write(content)
         f.close()
+        # Aktuelle Generation als initiale Generation übernehmen
         self.init_grid = self.grid
         self.handleReset()
 
