@@ -1,4 +1,4 @@
-# Game of Life mit Python 3 und Tk
+# Conways Spiel des Lebens mit Python 3 und Tk
 #
 # Dieser Quelltext ist frei unter der MIT-Lizenz.
 #
@@ -22,10 +22,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# Für eine Schritt die Taste N oder die Leertaste drücken.
-# Zum Starten und Stoppen des automatischen Ablaufs die
-# Taste P drücken.
-
 # Anzahl Zellen auf dem Bildschirm
 width = 40
 height = 30
@@ -38,11 +34,11 @@ auto_step_delay = 200
 
 # An dieser Funktion müssen Änderungen vorgenommen werden.
 def step(grid, new_grid):
-    '''Diese Funktion führt einen Schritt des Game of Life aus.
-       Der aktuelle Zustand befindet sich dabei in grid und der
-       neue Zustand wird in new_grid gesetzt. Dabei gelten
-       die folgenden Regeln: Eine Zelle wird geboren, wenn es
-       in ihrer Umgebung genau 3 Zellen gibt.
+    '''Diese Funktion führt einen Schritt von Conways Spiel des
+       Lebens aus. Der aktuelle Zustand befindet sich dabei in
+       grid und der neue Zustand wird in new_grid gesetzt.
+       Dabei gelten die folgenden Regeln: Eine Zelle wird
+       geboren, wenn es in ihrer Umgebung genau 3 Zellen gibt.
        Eine Zelle überlebt, wenn es in ihrer
        Umgebung genau 2 oder 3 Zellen gibt. Sonst stirbt sie an
        Vereinsamung oder Überbevölkerung. Lebt eine Zelle,
@@ -149,7 +145,7 @@ class GameOfLife(object):
         self.canvas.bind("<Button-1>", self.handleClick)
 
         # Titel des Fenster setzen
-        self.root.title("Game of Life")
+        self.root.title("Conways Spiel des Lebens")
 
     def draw_grid(self):
         # Berechnung der Größe des Fensters
