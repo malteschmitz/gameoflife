@@ -100,11 +100,11 @@ class GameOfLife(object):
 
         # Glider als Initiale Belegung erzeugen
         self.init_grid = [[0 for y in range(height)] for x in range(width)]
-        self.init_grid[2][2] = 1
-        self.init_grid[3][3] = 1
-        self.init_grid[1][4] = 1
+        self.init_grid[3][2] = 1
+        self.init_grid[4][3] = 1
         self.init_grid[2][4] = 1
         self.init_grid[3][4] = 1
+        self.init_grid[4][4] = 1
         self.handleReset()
 
         # Größe der Canvas auf ihren Inhalt anpassen
@@ -277,12 +277,13 @@ class GameOfLife(object):
             defaultextension = ".cells",
             filetypes = [("Plaintext-Dateien (*.cells)", "*.cells")])
         # Dateiformat erzeugen
-        def convert(cell):
-            if cell == 1:
-                return "O"
-            else:
-                return "."
-        content = "\n".join(map(lambda line: "".join(map(convert, line)), self.grid))
+        # (Es werden zwei Zellen Rand auf allen Seiten ignoriert)
+        data = [["." for x in range(width - 4)] for y in range(height - 4)]
+        for y in range(len(data)):
+            for x in range(len(data[y])):
+                if self.grid[x + 2][y + 2] == 1:
+                    data[y][x] = "O"
+        content = "\n".join(map(lambda line: "".join(line), data))
         # Datei schreiben
         f = open(filename, "w")
         f.write(content)
