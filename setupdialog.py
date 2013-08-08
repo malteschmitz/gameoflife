@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import messagebox
 
 class SetupDialog(object):
     def __init__(self, parent):
